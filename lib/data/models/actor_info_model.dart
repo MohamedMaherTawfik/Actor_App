@@ -5,7 +5,6 @@ class ActorInfo {
   String? birthday;
   String? deathday;
   int? gender;
-  Null? homepage;
   int? id;
   String? imdbId;
   String? knownForDepartment;
@@ -21,7 +20,6 @@ class ActorInfo {
       this.birthday,
       this.deathday,
       this.gender,
-      this.homepage,
       this.id,
       this.imdbId,
       this.knownForDepartment,
@@ -37,7 +35,6 @@ class ActorInfo {
     birthday = json['birthday'];
     deathday = json['deathday'];
     gender = json['gender'];
-    homepage = json['homepage'];
     id = json['id'];
     imdbId = json['imdb_id'];
     knownForDepartment = json['known_for_department'];
@@ -55,7 +52,6 @@ class ActorInfo {
     data['birthday'] = this.birthday;
     data['deathday'] = this.deathday;
     data['gender'] = this.gender;
-    data['homepage'] = this.homepage;
     data['id'] = this.id;
     data['imdb_id'] = this.imdbId;
     data['known_for_department'] = this.knownForDepartment;

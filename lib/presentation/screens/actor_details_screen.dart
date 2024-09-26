@@ -1,5 +1,7 @@
+import 'package:actors_gallery/buisness_logic_layer/cubit/actor_images_cubit.dart';
 import 'package:actors_gallery/buisness_logic_layer/cubit/actor_info_cubit.dart';
 import 'package:actors_gallery/constants/mycolors.dart';
+import 'package:actors_gallery/data/models/actor_image_model.dart';
 import 'package:actors_gallery/data/models/actor_info_model.dart';
 import 'package:actors_gallery/data/models/actor_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -20,9 +22,12 @@ class ActorsDetailsScreen extends StatefulWidget {
 
 class _ActorsDetailsScreenState extends State<ActorsDetailsScreen> {
   late ActorInfo _actorInfo;
+  late ActorImages _actorImages;
   @override
   void initState() {
     BlocProvider.of<ActorInfoCubit>(context).getActorInfo(widget.actors.id);
+    BlocProvider.of<ActorImagesCubit>(context).getActorImages(widget.actors.id);
+
     super.initState();
   }
 
@@ -116,9 +121,12 @@ class _ActorsDetailsScreenState extends State<ActorsDetailsScreen> {
     }
 
     Widget showLoadingIndicator() {
-      return Center(
-        child: CircularProgressIndicator(
-          color: MyColors.myYellow,
+      return Container(
+        color: MyColors.myGrey,
+        child: Center(
+          child: CircularProgressIndicator(
+            color: MyColors.myYellow,
+          ),
         ),
       );
     }
@@ -165,21 +173,36 @@ class _ActorsDetailsScreenState extends State<ActorsDetailsScreen> {
                         viewportFraction: 1,
                         height: MediaQuery.of(context).size.height * 0.4,
                       ),
-                      items: [0, 1, 2, 3].map((i) {
+                      items: [0, 1, 2, 3, 4, 5].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.4,
-                              margin: EdgeInsets.symmetric(horizontal: 10.0),
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                              child: Image.network(
-                                'https://image.tmdb.org/t/p/w500${_actorInfo.profilePath}',
-                                fit: BoxFit.cover,
-                              ),
+                            return BlocBuilder<ActorImagesCubit,
+                                ActorImagesState>(
+                              builder: (context, state) {
+                                if (state is ActorImagesLoaded) {
+                                  _actorImages = state.actorImages;
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(16.0),
+                                    ),
+                                    child: _actorImages.profiles!.isEmpty
+                                        ? Image.network(
+                                            'https://image.tmdb.org/t/p/w500${_actorInfo.profilePath}')
+                                        : Image.network(
+                                            'https://image.tmdb.org/t/p/w500${_actorImages.profiles![i].filePath}',
+                                            fit: BoxFit.cover,
+                                          ),
+                                  );
+                                } else {
+                                  return showLoadingIndicator();
+                                }
+                              },
                             );
                           },
                         );

@@ -104,9 +104,12 @@ class _CharactersScreenState extends State<CharactersScreen> {
   }
 
   Widget showLoadingIndicator() {
-    return Center(
-      child: CircularProgressIndicator(
-        color: MyColors.myYellow,
+    return Container(
+      color: MyColors.myGrey,
+      child: Center(
+        child: CircularProgressIndicator(
+          color: MyColors.myYellow,
+        ),
       ),
     );
   }

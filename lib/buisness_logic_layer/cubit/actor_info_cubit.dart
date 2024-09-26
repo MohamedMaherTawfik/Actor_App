@@ -1,3 +1,4 @@
+import 'package:actors_gallery/data/models/actor_image_model.dart';
 import 'package:actors_gallery/data/models/actor_info_model.dart';
 import 'package:actors_gallery/data/repository/actor_info_repository.dart';
 import 'package:bloc/bloc.dart';

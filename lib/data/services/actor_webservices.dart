@@ -40,8 +40,7 @@ class ActorWebservices {
   Future<Map<String, dynamic>> getAllImages(int id) async {
     try {
       Response response = await dio.get('person/$id/images?');
-      log(response.data.toString());
-      return response.data['profiles'];
+      return response.data;
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return {};
