@@ -30,7 +30,6 @@ class ActorWebservices {
   Future<Map<String, dynamic>> getAllDetails(int id) async {
     try {
       Response response = await dio.get('person/$id?');
-      log(response.data.toString());
       return response.data;
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
